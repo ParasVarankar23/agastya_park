@@ -1,10 +1,10 @@
-import Login from '@/components/layout/Login'
+import ChangePassword from '@/components/layout/ChangePassword'
 import React from 'react'
 
 export default function page() {
   return (
     <div>
-      <Login/>
+      <ChangePassword/>
     </div>
   )
 }

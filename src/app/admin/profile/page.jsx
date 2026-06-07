@@ -1,10 +1,10 @@
-import Login from '@/components/layout/Login'
+import Profile from '@/components/layout/Profile'
 import React from 'react'
 
 export default function page() {
   return (
     <div>
-      <Login/>
+      <Profile/>
     </div>
   )
 }

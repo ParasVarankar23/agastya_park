@@ -31,16 +31,7 @@ export default function ClientLayout({
 
                 <main className="flex-1 p-6">
                     {children}
-                </main>
-
-                <footer className="border-t bg-gray-100 py-3 text-center text-sm">
-                    © {new Date().getFullYear()}
-                    {" "}Agastya Park Devad Panvel |
-                    Created by{" "}
-                    <span className="font-semibold">
-                        Paras Varankar
-                    </span>
-                </footer>
+                </main>              
             </div>
         </div>
     );
