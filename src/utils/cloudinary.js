@@ -1,56 +1,68 @@
 import { v2 as cloudinary } from "cloudinary";
 
+// =========================================
+// CLOUDINARY CONFIG
+// =========================================
+
 cloudinary.config({
     cloud_name: process.env.CLOUDINARY_CLOUD_NAME,
     api_key: process.env.CLOUDINARY_API_KEY,
     api_secret: process.env.CLOUDINARY_API_SECRET,
 });
 
-export default cloudinary;
+// =========================================
+// UPLOAD FILE
+// =========================================
 
-// Upload Image
-export const uploadImage = async (
-    file,
+export const uploadToCloudinary = (
+    buffer,
+    fileName = "upload",
+    mimeType = "application/octet-stream",
     folder = "agastya-park"
 ) => {
-    try {
-        const result =
-            await cloudinary.uploader.upload(
-                file,
+    return new Promise((resolve, reject) => {
+        const stream =
+            cloudinary.uploader.upload_stream(
                 {
                     folder,
+                    resource_type: mimeType.startsWith("image/") ? "image" : "auto",
+                    public_id: fileName.replace(/\.[^/.]+$/, ""),
+                },
+                (error, result) => {
+                    if (error) {
+                        return reject(error);
+                    }
+
+                    resolve(result);
                 }
             );
 
-        return {
-            success: true,
-            url: result.secure_url,
-            public_id: result.public_id,
-        };
-    } catch (error) {
-        return {
-            success: false,
-            message: error.message,
-        };
-    }
+        stream.end(buffer);
+    });
 };
 
-// Delete Image
-export const deleteImage = async (
-    public_id
+export const uploadImage = uploadToCloudinary;
+
+// =========================================
+// DELETE FILE
+// =========================================
+
+export const deleteFromCloudinary = async (
+    publicId
 ) => {
     try {
-        await cloudinary.uploader.destroy(
-            public_id
-        );
+        const result =
+            await cloudinary.uploader.destroy(
+                publicId,
+                {
+                    resource_type: "image",
+                }
+            );
 
-        return {
-            success: true,
-        };
+        return result;
     } catch (error) {
-        return {
-            success: false,
-            message: error.message,
-        };
+        throw error;
     }
 };
+
+export const deleteImage = deleteFromCloudinary;

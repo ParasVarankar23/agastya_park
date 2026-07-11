@@ -2,10 +2,7 @@ import { NextResponse } from "next/server";
 
 import { auth } from "@/middleware/auth";
 
-import { uploadToCloudinary } from "@/utils/cloudinary";
-
-import { deleteFromCloudinary } from "@/utils/cloudinary";
-
+import { uploadToCloudinary, deleteFromCloudinary } from "@/utils/cloudinary";
 
 export async function POST(req) {
     try {
